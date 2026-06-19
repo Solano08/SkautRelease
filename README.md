@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/skaut-ia-release-notes.png" alt="Skaut IA" width="480" />
+  <img src="./public/skaut-ia-release-notes.jpg" alt="Skaut IA" width="480" />
 </p>
 
 
