@@ -20,13 +20,9 @@ export default function Home() {
             className="h-auto w-full max-w-md"
           />
         </div>
-        <h1 className="mt-10 text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h2 className="mt-10 text-xl font-semibold tracking-tight sm:text-3xl">
           Notas de versión
-        </h1>
-        <p className="mt-3 max-w-xl text-muted">
-          Historial de lanzamientos y mejoras de Skaut IA, el agente de
-          inteligencia para análisis de oportunidades de inversión en Colombia.
-        </p>
+        </h2>
       </section>
 
       {releases.length === 0 ? (
