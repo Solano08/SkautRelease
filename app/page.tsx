@@ -23,7 +23,7 @@ export default function Home() {
             width={1200}
             height={400}
             priority
-            className="h-auto w-full max-w-md"
+            className="h-auto w-full max-w-md bg-black"
           />
         </div>
         <h2 className="mt-10 text-2xl font-semibold tracking-tight sm:text-4xl">
