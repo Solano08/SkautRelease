@@ -67,3 +67,12 @@ export function formatDate(date: string): string {
     day: "numeric",
   });
 }
+
+/** Markdown preview for the home list: from "## Novedades" onward (or a short fallback). */
+export function getHomePreviewMarkdown(content: string): string {
+  const match = content.match(/^##\s+Novedades\s*$/m);
+  if (match?.index != null) {
+    return content.slice(match.index).trim();
+  }
+  return content.trim().slice(0, 900);
+}

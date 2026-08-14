@@ -5,9 +5,12 @@ import {
   getAllSlugs,
   getReleaseBySlug,
   formatDate,
+  formatVersionNumber,
 } from "@/lib/releases";
 import MarkdownContent from "@/components/MarkdownContent";
-import VersionBadge from "@/components/VersionBadge";
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -41,29 +44,35 @@ export default async function ReleasePage({
     <article>
       <Link
         href="/"
-        className="text-sm text-muted transition-colors hover:text-foreground"
+        className="text-base text-muted transition-colors hover:text-foreground"
       >
         ← Todas las versiones
       </Link>
 
-      <div className="mt-8 mb-6 flex flex-wrap items-center gap-3">
-        <VersionBadge version={release.version} />
-        {release.tag && (
-          <span className="text-xs uppercase tracking-wide text-muted">
-            {release.tag}
+      <div className="mt-8 mb-6">
+        <div className="mb-3 flex flex-wrap items-center gap-3">
+          {release.tag && (
+            <span className="text-sm uppercase tracking-wide text-muted">
+              {release.tag}
+            </span>
+          )}
+          <time className="ml-auto text-base text-muted">
+            {formatDate(release.date)}
+          </time>
+        </div>
+
+        <h1 className="flex items-baseline gap-2.5 text-4xl font-semibold tracking-tight sm:text-5xl">
+          <span>{release.title}</span>
+          <span className="font-mono text-base text-accent sm:text-lg">
+            {formatVersionNumber(release.version)}
           </span>
-        )}
-        <time className="ml-auto text-sm text-muted">
-          {formatDate(release.date)}
-        </time>
+        </h1>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-        {release.title}
-      </h1>
-
       {release.summary && (
-        <p className="mt-4 text-lg text-muted">{release.summary}</p>
+        <p className="mt-4 text-xl leading-relaxed text-muted">
+          {release.summary}
+        </p>
       )}
 
       <hr className="my-8 border-[#1f1f22]" />

@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllReleases, formatDate, formatVersionNumber } from "@/lib/releases";
+import {
+  getAllReleases,
+  formatDate,
+  formatVersionNumber,
+  getHomePreviewMarkdown,
+} from "@/lib/releases";
 import MarkdownContent from "@/components/MarkdownContent";
-import VersionBadge from "@/components/VersionBadge";
+
+export const dynamic = "force-static";
 
 export default function Home() {
   const releases = getAllReleases();
@@ -20,53 +26,65 @@ export default function Home() {
             className="h-auto w-full max-w-md"
           />
         </div>
-        <h2 className="mt-10 text-xl font-semibold tracking-tight sm:text-3xl">
+        <h2 className="mt-10 text-2xl font-semibold tracking-tight sm:text-4xl">
           Notas de versión
         </h2>
       </section>
 
       {releases.length === 0 ? (
-        <p className="text-muted">Aún no hay notas de versión publicadas.</p>
+        <p className="text-base text-muted">
+          Aún no hay notas de versión publicadas.
+        </p>
       ) : (
-        <div className="space-y-16">
+        <div className="space-y-14">
           {releases.map((release) => (
-            <article
-              key={release.slug}
-              className="relative border-t border-[#1f1f22] pt-8"
-            >
-              <div className="mb-5 flex flex-wrap items-center gap-3">
-                <VersionBadge version={release.version} />
-                {release.tag && (
-                  <span className="text-xs uppercase tracking-wide text-muted">
-                    {release.tag}
-                  </span>
-                )}
-                <time className="ml-auto text-sm text-muted">
-                  {formatDate(release.date)}
-                </time>
+            <article key={release.slug} className="relative pt-8">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute top-0 -left-14 -right-14 h-px bg-[#1f1f22] sm:-left-20 sm:-right-20"
+              />
+              <div className="relative">
+                <div className="mb-3 flex flex-wrap items-center gap-3">
+                  {release.tag && (
+                    <span className="text-sm uppercase tracking-wide text-muted">
+                      {release.tag}
+                    </span>
+                  )}
+                  <time className="ml-auto text-base text-muted">
+                    {formatDate(release.date)}
+                  </time>
+                </div>
+
+                <Link href={`/releases/${release.slug}`} className="group block">
+                  <h2 className="flex items-baseline gap-2.5 text-3xl font-semibold tracking-tight sm:text-4xl">
+                    <span className="transition-colors group-hover:text-accent">
+                      {release.title}
+                    </span>
+                    <span className="font-mono text-base text-accent">
+                      {formatVersionNumber(release.version)}
+                    </span>
+                  </h2>
+                </Link>
               </div>
 
-              <Link href={`/releases/${release.slug}`} className="group block">
-                <h2 className="flex items-baseline gap-2 text-2xl font-semibold tracking-tight">
-                  <span className="transition-colors group-hover:text-accent">
-                    {release.title}
-                  </span>
-                  <span className="font-mono text-xs text-accent">
-                    {formatVersionNumber(release.version)}
-                  </span>
-                </h2>
-              </Link>
+              {release.summary && (
+                <p className="mt-4 text-lg leading-relaxed text-[#d4d4d8]">
+                  {release.summary}
+                </p>
+              )}
 
-              <div className="mt-6">
-                <MarkdownContent content={release.content} />
+              <div className="release-preview mt-6">
+                <MarkdownContent
+                  content={getHomePreviewMarkdown(release.content)}
+                />
+                <div className="release-preview-fog" aria-hidden="true" />
+                <Link
+                  href={`/releases/${release.slug}`}
+                  className="release-preview-cta"
+                >
+                  Leer nota completa →
+                </Link>
               </div>
-
-              <Link
-                href={`/releases/${release.slug}`}
-                className="mt-6 inline-block text-sm text-accent hover:underline"
-              >
-                Ver esta versión →
-              </Link>
             </article>
           ))}
         </div>
