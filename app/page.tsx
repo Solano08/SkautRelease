@@ -18,7 +18,7 @@ export default function Home() {
       <section className="mb-16">
         <div className="flex justify-center">
           <Image
-            src="/skaut-ia-logo.png"
+            src="/skaut-ia-release.png"
             alt="Skaut IA"
             width={1200}
             height={400}
